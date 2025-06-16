@@ -22,7 +22,16 @@ async function getAllUsers(_req, res) {
 
 // Get a specific user 
 async function getSingleUser(req, res){
-
+    const id = req.params.id;
+    try{
+        const user = await role.users.findFirst({
+            where: {id}
+        })
+        if(user) res.status(200).json(user);
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: "Internal Server Error!!"})
+    }
 }
 
 // Create new user 
