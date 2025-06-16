@@ -135,6 +135,19 @@ async function updatePost(req, res){
  
 // delete a specific post via it's id 
 async function deletePost(req, res) {
+    const id = req.params.id;
+    try{
+        // const{isDeleted} = req.body;
+        const postToDelete = await role.posts.update({
+            data:{isDeleted: true},
+            where:{id}
+        })
+        if(postToDelete) res.status(200).json(postToDelete);
+        else res.status(400).json({message: "Bad request: Failed to delete post"})
+    }catch (err) {
+       console.log(err); 
+       res.status(500).json({message: "Internal Server Error!!"});
+    }
 }
 
 app.get("/users", getAllUsers);
