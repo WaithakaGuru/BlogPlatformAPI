@@ -28,7 +28,8 @@ async function getSingleUser(req, res){
     const id = req.params.id;
     try{
         const user = await role.users.findUnique({
-            where: {id:id}
+            where: {id:id},
+            include: {posts: true}
         })
         if(user) {
             res.status(200).json(user);
