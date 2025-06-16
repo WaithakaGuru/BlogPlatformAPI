@@ -62,6 +62,9 @@ async function makeNewUser(req, res) {
 async function getAllPosts(req, res) {
     try {
         const posts = await role.posts.findMany({
+             where:{
+                isDeleted: false
+            },
             include:{
                 author: true
             }
@@ -81,7 +84,9 @@ async function getSinglePost(req, res){
     const id = req.params.id 
     try {
         const post = await role.posts.findFirst({
-            where: {id},
+            where: {id,
+                isDeleted: false
+            },
             include: {
                 author: true
             }
@@ -118,12 +123,23 @@ async function makeNewPost(req, res){
 
 // Update a specific post via it's  post id 
 async function updatePost(req, res){
-    
+    const id = req.params.id;
+    try {
+        const {title, content, authorId} = req.body
+        const updatedPost = await role.posts.update({
+            data:{
+                title, content, authorId
+            },
+            where:{id}
+        })
+    } catch (err) {
+       console.log(err); 
+       res.status(500).json({message: "Internal Server Error!!"});
+    }
 }
  
 // delete a specific post via it's id 
 async function deletePost(req, res) {
-
 }
 
 app.get("/users", getAllUsers);
@@ -136,7 +152,7 @@ app.post("/posts", makeNewPost);
 
 app.put("/posts/:id", updatePost);
 
-app.delete("/posts/id", deletePost);
+app.patch("/posts/id", deletePost);
 
 app.get("/", (_req, res)=> {
     res.send("Welcome to the Home Page")
