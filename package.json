@@ -1,8 +1,19 @@
 {
+    "name": "blogapi",
+    "version": "1.0.0",
     "type": "module",
     "scripts": {
         "serve": "nodemon index.js",
         "start": "node index.js",
         "build": "npx prisma generate"
-    }
+    },
+    "dependencies": {
+        "@prisma/client": "^6.9.0",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10",
+        "prisma": "^6.9.0"
+  }
 }
