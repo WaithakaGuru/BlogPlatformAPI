@@ -99,12 +99,26 @@ async function getSinglePost(req, res){
 
 // Create a new post 
 async function makeNewPost(req, res){
-
+    try{
+        const { title, content, authorId} = req.body;
+        if(!title || !content || !authorId) res.send("All post Fields are required!");
+        else {
+            const createPost = await role.posts.create({
+                data: {
+                    title, content, authorId
+                }
+            })
+            res.send("Creating a new post")
+        }
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message: "Internal Server Error!!"});
+    }
 }
 
 // Update a specific post via it's  post id 
 async function updatePost(req, res){
-
+    
 }
  
 // delete a specific post via it's id 
