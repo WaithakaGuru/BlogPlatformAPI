@@ -137,7 +137,6 @@ async function updatePost(req, res){
 async function deletePost(req, res) {
     const id = req.params.id;
     try{
-        // const{isDeleted} = req.body;
         const postToDelete = await role.posts.update({
             data:{isDeleted: true},
             where:{id}
