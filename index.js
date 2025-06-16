@@ -9,8 +9,15 @@ app.use(json());
 const role = new PrismaClient();
 
 // Getting all users 
-async function getAllUsers(req, res) {
-
+async function getAllUsers(_req, res) {
+    try{
+        const users = await role.users.findMany();
+        if(users && users.length > 0)res.status(200).json(users);
+        else res.status(400).json({message: "Empty Records!!"})
+    }catch(err){
+        console.log(err);
+        res.status(500).json({message:"Internal Server Error!!"})
+    }
 }
 
 // Get a specific user 
@@ -60,7 +67,7 @@ app.put("/posts/:id", updatePost);
 
 app.delete("/posts/id", deletePost);
 
-app.get("/", (req, res)=> {
+app.get("/", (_req, res)=> {
     res.send("Welcome to the Home Page")
 })
 
