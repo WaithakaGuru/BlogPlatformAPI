@@ -118,13 +118,15 @@ async function makeNewPost(req, res){
 async function updatePost(req, res){
     const id = req.params.id;
     try {
-        const {title, content, authorId} = req.body
+        const {id, title, content, authorId} = req.body
         const updatedPost = await role.posts.update({
             data:{
-                title, content, authorId
+                id, title, content, authorId
             },
             where:{id}
         })
+        if(updatedPost) res.status(201).json(updatedPost);
+        else res.json({message: "Failed to update post. Try again later!!"});
     } catch (err) {
        console.log(err); 
        res.status(500).json({message: "Internal Server Error!!"});
