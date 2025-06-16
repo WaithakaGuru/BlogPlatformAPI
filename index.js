@@ -12,7 +12,10 @@ const role = new PrismaClient();
 async function getAllUsers(_req, res) {
     try{
         const users = await role.users.findMany();
-        if(users && users.length > 0)res.status(200).json(users);
+        if(users && users.length > 0){
+            res.status(200).json(users);
+            res.send("Getting all users :)");
+        }
         else res.status(400).json({message: "Empty Records!!"})
     }catch(err){
         console.log(err);
@@ -27,7 +30,10 @@ async function getSingleUser(req, res){
         const user = await role.users.findFirst({
             where: {id}
         })
-        if(user) res.status(200).json(user);
+        if(user) {
+            res.status(200).json(user);
+            res.send(`Getting user with id: '${id}`)
+        }
     }catch(err){
         console.log(err);
         res.status(500).json({message: "Internal Server Error!!"})
@@ -36,7 +42,20 @@ async function getSingleUser(req, res){
 
 // Create new user 
 async function makeNewUser(req, res) {
-
+    try{
+        const { firstName, lastName, emailAddress, username} = req.body;
+        if(!firstName || !lastName || !emailAddress || !username) res.send("All User Fields are required!");
+        else {
+            const createUser = await role.users.create({
+                data: {
+                    firstName, lastName, emailAddress, username
+                }
+            })
+            res.send("Creating a new user ")
+        }
+    }catch(err){
+        console.log(err);
+    }
 }
 
 // Get posts alongside their author details 
