@@ -1,6 +1,8 @@
 {
     "type": "module",
     "scripts": {
-        "serve": "nodemon index.js"
+        "serve": "nodemon index.js",
+        "start": "node index.js",
+        "build": "npx prisma generate"
     }
 }
