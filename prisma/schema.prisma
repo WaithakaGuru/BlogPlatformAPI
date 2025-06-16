@@ -22,3 +22,14 @@ model Users {
   username String @map("Username")
   @@map("users")
 }
+
+model Posts{
+  id String @id @default(uuid())
+  title String 
+  content String 
+  createdAt DateTime @default(now()) @map("Created_At")
+  lastUpdated DateTime @updatedAt() @default(now()) @map("Last_Updated_At")
+  isDeleted Boolean @default(false) @map("Is_Deleted")
+
+  @@map("posts")
+}
