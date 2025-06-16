@@ -1,14 +1,68 @@
-import express from "express";
-import { PrismaClient } from "@prisma/client";
+import express, { json } from "express";
+import { PrismaClient } from "./generated/prisma/index.js";
 import  {configDotenv } from "dotenv";
 configDotenv();
 
 const port = process.env.SERVER_PORT_NUMBER;
 const app = express();
+app.use(json());
 const role = new PrismaClient();
 
+// Getting all users 
+async function getAllUsers(req, res) {
 
+}
 
+// Get a specific user 
+async function getSingleUser(req, res){
+
+}
+
+// Create new user 
+async function makeNewUser(req, res) {
+
+}
+
+// Get posts alongside their author details 
+async function getAllPosts(req, res) {
+
+}
+
+// Get a specific post via it's unique post id 
+async function getSinglePost(req, res){
+
+}
+
+// Create a new post 
+async function makeNewPost(req, res){
+
+}
+
+// Update a specific post via it's  post id 
+async function updatePost(req, res){
+
+}
+ 
+// delete a specific post via it's id 
+async function deletePost(req, res) {
+
+}
+
+app.get("/users", getAllUsers);
+app.get("/user/:id", getSingleUser);
+app.get("/posts", getAllPosts);
+app.get("/posts/:id", getSinglePost);
+
+app.post("/users", makeNewUser);
+app.post("/posts", makeNewPost);
+
+app.put("/posts/:id", updatePost);
+
+app.delete("/posts/id", deletePost);
+
+app.get("/", (req, res)=> {
+    res.send("Welcome to the Home Page")
+})
 
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`);
