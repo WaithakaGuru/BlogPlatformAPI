@@ -78,7 +78,23 @@ async function getAllPosts(req, res) {
 
 // Get a specific post via it's unique post id 
 async function getSinglePost(req, res){
+    const id = req.params.id 
+    try {
+        const post = await role.posts.findFirst({
+            where: {id},
+            include: {
+                author: true
+            }
+        })
+        if(post) {
+            res.status(200).json(post);
+            res.send(`Getting post with id: ${id}`);
+        }else res.status(400).json({message: "Post not found :)"});
 
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: "Internal Server Error!!"});
+    }
 }
 
 // Create a new post 
