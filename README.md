@@ -8,33 +8,11 @@ This project is a simple RESTful API for a minimal blogging platform. It allows 
 - Express.js -  for Backend Server and routing 
 - Prisma ORM - For interaction with the database 
 - PostgreSQL - For the Database 
-- Node.js - For Package and dependancies mmanagement 
+- Node.js - For Package and dependancies management 
 
 ## Requirements
 - Node.js and npm installed
 - PostgreSQL database
-
-<!-- ## Models
-
-### User
-- `id` (string, primary key, uuid)
-- `firstName` (string)
-- `lastName` (string)
-- `emailAddress` (string, unique)
-- `username` (string, unique)
-
-### Post
-- `id` (string, primary key, uuid)
-- `title` (string)
-- `content` (string)
-- `createdAt` (DateTime, default now)
-- `lastUpdated` (DateTime, uses @updatedAt)
-- `isDeleted` (Boolean, default false)
-- `authorId` (string, foreign key to User)
-
-A one-to-many relationship exists between User and Post: one user can have multiple posts, but each post belongs to one user.
-
---- -->
 
 ## Endpoints
 
