@@ -16,7 +16,7 @@ async function getAllUsers(_req, res) {
             res.status(200).json(users);
             res.send("Getting all users :)");
         }
-        else res.status(400).json({message: "Empty Records!!"})
+        else res.status(400).json({message: "Empty: No Records Found!!"})
     }catch(err){
         console.log(err);
         res.status(500).json({message:"Internal Server Error!!"})
@@ -60,7 +60,20 @@ async function makeNewUser(req, res) {
 
 // Get posts alongside their author details 
 async function getAllPosts(req, res) {
-
+    try {
+        const posts = await role.posts.findMany({
+            include:{
+                author: true
+            }
+        });
+        if(posts && posts.length > 0) {
+            res.status(200).json(posts);
+            res.send("Getting all posts");
+        }else res.status(400).json("Empty: No Records found!!")
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({message: "Internal Server Error!!"})
+    }
 }
 
 // Get a specific post via it's unique post id 

@@ -20,6 +20,9 @@ model Users {
   lastName String @map("Last_Name")
   emailAddress String @unique @map("Email_Address")
   username String @map("Username")
+
+  posts Posts[]
+
   @@map("users")
 }
 
@@ -30,6 +33,9 @@ model Posts{
   createdAt DateTime @default(now()) @map("Created_At")
   lastUpdated DateTime @updatedAt() @default(now()) @map("Last_Updated_At")
   isDeleted Boolean @default(false) @map("Is_Deleted")
+
+  author Users @relation(fields: [authorId], references: [id])
+  authorId String  
 
   @@map("posts")
 }
