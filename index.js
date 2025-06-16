@@ -16,7 +16,7 @@ async function getAllUsers(_req, res) {
             res.status(200).json(users);
             res.send("Getting all users :)");
         }
-        else res.status(400).json({message: "Empty: No Records Found!!"})
+        else res.status(404).json({message: "Empty: No Records Found!!"})
     }catch(err){
         console.log(err);
         res.status(500).json({message:"Internal Server Error!!"})
@@ -27,13 +27,14 @@ async function getAllUsers(_req, res) {
 async function getSingleUser(req, res){
     const id = req.params.id;
     try{
-        const user = await role.users.findFirst({
-            where: {id}
+        const user = await role.users.findUnique({
+            where: {id:id}
         })
         if(user) {
             res.status(200).json(user);
-            res.send(`Getting user with id: '${id}`)
+            res.send(`Getting user with id: ${id}`)
         }
+        else res.status(404).json({message: "Empty: No Records Found!!"})
     }catch(err){
         console.log(err);
         res.status(500).json({message: "Internal Server Error!!"})
@@ -62,17 +63,13 @@ async function makeNewUser(req, res) {
 async function getAllPosts(req, res) {
     try {
         const posts = await role.posts.findMany({
-             where:{
-                isDeleted: false
-            },
-            include:{
-                author: true
-            }
+             where:{isDeleted: false},
+            include:{author: true}
         });
         if(posts && posts.length > 0) {
             res.status(200).json(posts);
             res.send("Getting all posts");
-        }else res.status(400).json("Empty: No Records found!!")
+        }else res.status(404).json("Empty: No Records found!!")
     } catch (err) {
         console.log(err);
         res.status(500).json({message: "Internal Server Error!!"})
@@ -83,10 +80,8 @@ async function getAllPosts(req, res) {
 async function getSinglePost(req, res){
     const id = req.params.id 
     try {
-        const post = await role.posts.findFirst({
-            where: {id,
-                isDeleted: false
-            },
+        const post = await role.posts.findUnique({
+            where: {id, isDeleted: false},
             include: {
                 author: true
             }
@@ -94,7 +89,7 @@ async function getSinglePost(req, res){
         if(post) {
             res.status(200).json(post);
             res.send(`Getting post with id: ${id}`);
-        }else res.status(400).json({message: "Post not found :)"});
+        }else res.status(404).json({message: "Post not found :)"});
 
     } catch (err) {
         console.log(err);
@@ -109,9 +104,7 @@ async function makeNewPost(req, res){
         if(!title || !content || !authorId) res.send("All post Fields are required!");
         else {
             const createPost = await role.posts.create({
-                data: {
-                    title, content, authorId
-                }
+                data: { title, content, authorId }
             })
             res.send("Creating a new post")
         }
@@ -143,7 +136,7 @@ async function deletePost(req, res) {
 }
 
 app.get("/users", getAllUsers);
-app.get("/user/:id", getSingleUser);
+app.get("/users/:id", getSingleUser);
 app.get("/posts", getAllPosts);
 app.get("/posts/:id", getSinglePost);
 
@@ -152,7 +145,7 @@ app.post("/posts", makeNewPost);
 
 app.put("/posts/:id", updatePost);
 
-app.patch("/posts/id", deletePost);
+app.patch("/posts/:id", deletePost);
 
 app.get("/", (_req, res)=> {
     res.send("Welcome to the Home Page")
