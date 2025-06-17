@@ -14,7 +14,7 @@ async function getAllUsers(_req, res) {
         const users = await role.users.findMany();
         if(users && users.length > 0){
             res.status(200).json(users);
-            res.send("Getting all users :)");
+            // res.send("Getting all users :)");
         }
         else res.status(404).json({message: "Empty: No Records Found!!"})
     }catch(err){
@@ -33,7 +33,7 @@ async function getSingleUser(req, res){
         })
         if(user) {
             res.status(200).json(user);
-            res.send(`Getting user with id: ${id}`)
+            // res.send(`Getting user with id: ${id}`)
         }
         else res.status(404).json({message: "Empty: No Records Found!!"})
     }catch(err){
@@ -69,7 +69,7 @@ async function getAllPosts(req, res) {
         });
         if(posts && posts.length > 0) {
             res.status(200).json(posts);
-            res.send("Getting all posts");
+            // res.send("Getting all posts");
         }else res.status(404).json("Empty: No Records found!!")
     } catch (err) {
         console.log(err);
@@ -89,7 +89,7 @@ async function getSinglePost(req, res){
         })
         if(post) {
             res.status(200).json(post);
-            res.send(`Getting post with id: ${id}`);
+            // res.send(`Getting post with id: ${id}`);
         }else res.status(404).json({message: "Post not found :)"});
 
     } catch (err) {
