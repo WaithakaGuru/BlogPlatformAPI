@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import  {configDotenv } from "dotenv";
 configDotenv();
 
-const port = process.env.SERVER_PORT_NUMBER;
+const port = process.env.PORT || 3045;
 const app = express();
 app.use(json());
 const role = new PrismaClient();
@@ -61,7 +61,7 @@ async function makeNewUser(req, res) {
 }
 
 // Get posts alongside their author details 
-async function getAllPosts(req, res) {
+async function getAllPosts(_req, res) {
     try {
         const posts = await role.posts.findMany({
              where:{isDeleted: false},
@@ -73,7 +73,7 @@ async function getAllPosts(req, res) {
         }else res.status(404).json("Empty: No Records found!!")
     } catch (err) {
         console.log(err);
-        res.status(500).json({message: "Internal Server Error!!"})
+        res.status(500).json(err)
     }
 }
 
